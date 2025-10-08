@@ -8,6 +8,8 @@ wa-qr-ia/wa-captor/.wwebjs_auth/
 # Python
 __pycache__/
 *.pyc
+.venv/
+**/.venv/
 
 # Node
 node_modules/
