@@ -1,0 +1,17 @@
+# Envs
+.env
+*.env
+
+# WhatsApp session
+wa-qr-ia/wa-captor/.wwebjs_auth/
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Docker/Logs
+*.log
+

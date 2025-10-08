@@ -1,0 +1,12 @@
+.wwebjs_auth/
+node_modules/
+__pycache__/
+*.env
+.env
+dist/
+build/
+*.pyc
+.DS_Store
+ia-backend/tmp_media/
+
+

@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  ia-backend:
+    build: ./ia-backend
+    env_file: .env
+    ports:
+      - "${IA_PORT:-8000}:8000"
+    restart: unless-stopped
+
+  wa-captor:
+    build: ./wa-captor
+    env_file: .env
+    depends_on:
+      - ia-backend
+    volumes:
+      - ./wa-captor/.wwebjs_auth:/app/.wwebjs_auth
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+
