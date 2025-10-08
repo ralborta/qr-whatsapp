@@ -39,6 +39,9 @@ class Message(BaseModel):
     timestamp: int | None = None
     isGroup: bool = False
     groupName: str | None = None
+    groupId: str | None = None
+    senderName: str | None = None
+    senderNumber: str | None = None
     type: str  # "text" | "media"
     text: str | None = None
     mimetype: str | None = None
@@ -105,6 +108,9 @@ async def ingesta(request: Request):
             "author": msg.author,
             "isGroup": msg.isGroup,
             "groupName": msg.groupName,
+            "groupId": msg.groupId,
+            "senderName": msg.senderName,
+            "senderNumber": msg.senderNumber,
             "text": msg.text,
         }
         recent_messages.append(event)
@@ -137,6 +143,9 @@ async def ingesta(request: Request):
                 "author": msg.author,
                 "isGroup": msg.isGroup,
                 "groupName": msg.groupName,
+                "groupId": msg.groupId,
+                "senderName": msg.senderName,
+                "senderNumber": msg.senderNumber,
                 "mimetype": msg.mimetype,
                 "filename": msg.filename,
                 "media_url": url,
@@ -168,6 +177,9 @@ async def ingesta(request: Request):
                 "author": msg.author,
                 "isGroup": msg.isGroup,
                 "groupName": msg.groupName,
+                "groupId": msg.groupId,
+                "senderName": msg.senderName,
+                "senderNumber": msg.senderNumber,
                 "mimetype": msg.mimetype,
                 "filename": os.path.basename(path),
                 "media_url": media_url,
@@ -292,6 +304,7 @@ def dashboard():
             const ts = it.timestamp ? new Date(it.timestamp * 1000).toLocaleString() : '-';
             wrap.innerHTML = `
               <div class=\"meta\">${ts} · ${it.isGroup ? ('Grupo: ' + (it.groupName||'-')) : 'Privado'} · from: ${(it.from||'-')} · author: ${(it.author||'-')}</div>
+              <div class=\"meta\">${it.senderName ? ('Remitente: ' + it.senderName) : ''} ${it.senderNumber ? ('(' + it.senderNumber + ')') : ''} ${it.groupId ? (' · groupId: ' + it.groupId) : ''}</div>
               <div><span class=\"pill\">${it.type}</span> ${it.mimetype ? ('<span class=\\'pill\\'>' + it.mimetype + '</span>') : ''}</div>
               <div class=\"text\">${it.text ? it.text.replace(/</g,'&lt;') : ''}</div>
               ${it.media_url ? ('<a href=\\'' + it.media_url + '\\' target=\\'_blank\\'>Abrir archivo</a>') : ''}

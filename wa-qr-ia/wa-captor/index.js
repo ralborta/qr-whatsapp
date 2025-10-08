@@ -56,12 +56,26 @@ client.on('message', async (msg) => {
 
     if (isGroup && GROUP_WHITELIST.length && !GROUP_WHITELIST.includes(groupName)) return;
 
+    // Sender info (for both group and private)
+    let senderName = null;
+    try {
+      const contact = msg.author
+        ? await client.getContactById(msg.author)
+        : await msg.getContact();
+      senderName = (contact && (contact.pushname || contact.name || contact.shortName || contact.verifiedName)) || null;
+    } catch {}
+    const senderNumber = ((msg.author || msg.from || '').split('@')[0]) || null;
+    const groupId = isGroup ? msg.from : null;
+
     let payload = {
       from_: msg.from,
       author: msg.author || null,
       timestamp: msg.timestamp,
       isGroup,
       groupName,
+      groupId,
+      senderName,
+      senderNumber,
       type: 'text',
       text: msg.body || null
     };
